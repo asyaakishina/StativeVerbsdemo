@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stative Verbs Master - DEMO Version</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c, #3a4a9c);
+            color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .demo-banner {
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            color: #1a2a6c;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(254, 180, 123, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .menu-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .demo-lock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #feb47b;
+        }
+        
+        .lock-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .buy-btn {
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            border: none;
+            border-radius: 8px;
+            color: #1a2a6c;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 180, 123, 0.4);
+        }
+        
+        .game-section {
+            flex: 2;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #feb47b;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            color: #1a2a6c;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(254, 180, 123, 0.3);
+        }
+        
+        .tab.demo-locked {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+        }
+        
+        .tab.demo-locked:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #feb47b;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .progress-container {
+            margin-bottom: 25px;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid rgba(255, 100, 100, 0.5);
+            border-radius: 10px;
+            color: #ffcccc;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .reset-btn:hover {
+            background: rgba(255, 100, 100, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .game-content {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            color: #feb47b;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .game-question {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .game-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .option.correct {
+            background: rgba(100, 255, 100, 0.2);
+            border-color: rgba(100, 255, 100, 0.5);
+            color: #ccffcc;
+        }
+        
+        .option.incorrect {
+            background: rgba(255, 100, 100, 0.2);
+            border-color: rgba(255, 100, 100, 0.5);
+            color: #ffcccc;
+        }
+        
+        .game-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .game-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .next-btn {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            color: white;
+        }
+        
+        .hint-btn {
+            background: linear-gradient(90deg, #2196F3, #03A9F4);
+            color: white;
+        }
+        
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hint-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-style: italic;
+            display: none;
+        }
+        
+        .completion-message {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #feb47b;
+            padding: 30px;
+            display: none;
+        }
+        
+        .verb-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .verb-item {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .verb-item.learned {
+            background: rgba(100, 255, 100, 0.2);
+            color: #ccffcc;
+        }
+        
+        .verb-item.demo-only {
+            background: rgba(254, 180, 123, 0.2);
+            color: #ffe4cc;
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .demo-limits {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .demo-limits h3 {
+            color: #feb47b;
+            margin-bottom: 10px;
+        }
+        
+        .demo-limits ul {
+            padding-left: 20px;
+        }
+        
+        .demo-limits li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #feb47b;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #feb47b;
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tab {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🎮 DEMO VERSION - Try 5 verbs from each category. Get full version for all 59 verbs!
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>Stative Verbs Master</h1>
+            <p class="subtitle">DEMO VERSION - Master English stative verbs with this interactive learning game</p>
+        </header>
+        
+        <div class="game-container">
+            <section class="menu-section">
+                <div class="demo-lock" id="menu-lock">
+                    <div class="lock-icon">🔒</div>
+                    <div class="lock-text">Full statistics and progress tracking available in the full version</div>
+                    <button class="buy-btn" id="buy-btn">Buy Full Version</button>
+                </div>
+                
+                <h2>Learning Categories</h2>
+                <div class="tabs">
+                    <div class="tab active" data-category="emotion">Emotion</div>
+                    <div class="tab" data-category="possession">Possession</div>
+                    <div class="tab" data-category="mental">Mental State</div>
+                    <div class="tab demo-locked" data-category="perception">Perception</div>
+                    <div class="tab demo-locked" data-category="other">Other</div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="learned-count">0</div>
+                        <div class="stat-label">Learned</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="total-count">5</div>
+                        <div class="stat-label">Available in Demo</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="streak">0</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="accuracy">0%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <h3>Demo Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progress-percent">0%</span>
+                        <span id="progress-text">0/5 verbs</span>
+                    </div>
+                </div>
+                
+                <h3>Verbs in this category (Demo)</h3>
+                <div class="verb-list" id="verb-list">
+                    <!-- Verbs will be populated here by JavaScript -->
+                </div>
+                
+                <button class="reset-btn" id="reset-btn">Reset Demo Progress</button>
+                
+                <div class="demo-limits">
+                    <h3>Demo Limitations</h3>
+                    <ul>
+                        <li>Only 5 verbs per category available</li>
+                        <li>2 categories locked (Perception, Other)</li>
+                        <li>Progress resets after 24 hours</li>
+                        <li>No save feature</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="game-section">
+                <h2>Practice Mode - DEMO</h2>
+                <div class="game-content">
+                    <div class="category-title" id="current-category">Emotion Verbs</div>
+                    
+                    <div class="game-question" id="question">
+                        Select the correct category for this verb:
+                    </div>
+                    
+                    <div class="game-options" id="options-container">
+                        <!-- Options will be populated here by JavaScript -->
+                    </div>
+                    
+                    <div class="game-buttons">
+                        <button class="game-btn hint-btn" id="hint-btn">Show Hint</button>
+                        <button class="game-btn next-btn" id="next-btn">Next Verb</button>
+                    </div>
+                    
+                    <div class="hint-box" id="hint-box">
+                        <!-- Hint will be shown here -->
+                    </div>
+                    
+                    <div class="completion-message" id="completion-message">
+                        🎉 Congratulations! You've completed all demo verbs!<br><br>
+                        <button class="buy-btn" style="margin-top: 20px;">Buy Full Version for 59 Verbs</button>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Как играть</h3>
+                    <p>1. Выберите категорию глаголов в меню слева.</p>
+                    <p>2. Определите правильную категорию для выбранного глагола.</p>
+                    <p>3. Нажмите на правильный ответ. Зелёный цвет означает правильный ответ, красный — неправильный.</p>
+                    <p>4. Если вам нужна помощь, воспользуйтесь кнопкой "Show Hint".</p>
+                    <p>5. Нажмите «Следующий глагол», чтобы продолжить тренировку.</p>
+                    <p>6. Следите за своим прогрессом с помощью статистики и индикатора выполнения.</p>
+                </div>
+            </section>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <div class="feature-title">59 Verbs Total</div>
+                <p>Full version includes all stative verbs from the complete list</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Progress Tracking</div>
+                <p>Track your learning progress with detailed statistics</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <div class="feature-title">Save Progress</div>
+                <p>Your progress is saved automatically in the full version</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-title">Achievements</div>
+                <p>Earn achievements as you master stative verbs</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Stative Verbs Master DEMO &copy; 2023 | Full version available for purchase</p>
+            <p>Demo limited to 15 verbs. Full version includes all 59 stative verbs.</p>
+        </footer>
+    </div>
+
+    <script>
+        // DEMO VERSION - Limited stative verbs data
+        const demoStativeVerbs = {
+            emotion: ["love", "hate", "like", "want", "need"],
+            possession: ["have", "own", "belong", "possess", "contain"],
+            mental: ["know", "think", "believe", "understand", "remember"],
+            perception: ["see", "hear", "smell", "taste", "feel"],
+            other: ["cost", "weigh", "measure", "depend", "seem"]
+        };
+        
+        // Full version verbs count
+        const fullVersionVerbsCount = 59;
+        
+        // Category descriptions
+        const categoryDescriptions = {
+            emotion: "Express feelings, emotions, or preferences",
+            possession: "Indicate ownership or possession",
+            mental: "Describe mental states, thoughts, or opinions",
+            perception: "Relate to senses and perception",
+            other: "Other stative verbs that don't fit the above categories"
+        };
+
+        // Game state for DEMO
+        let demoGameState = {
+            currentCategory: "emotion",
+            currentVerbIndex: 0,
+            learnedVerbs: JSON.parse(localStorage.getItem("demoLearnedVerbs")) || [],
+            practiceHistory: JSON.parse(localStorage.getItem("demoPracticeHistory")) || [],
+            streak: 0,
+            lastPracticeDate: ""
+        };
+
+        // DOM elements
+        const tabs = document.querySelectorAll(".tab");
+        const verbListElement = document.getElementById("verb-list");
+        const questionElement = document.getElementById("question");
+        const optionsContainer = document.getElementById("options-container");
+        const hintBox = document.getElementById("hint-box");
+        const hintBtn = document.getElementById("hint-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const completionMessage = document.getElementById("completion-message");
+        const currentCategoryElement = document.getElementById("current-category");
+        const buyBtn = document.getElementById("buy-btn");
+        const menuLock = document.getElementById("menu-lock");
+        
+        // Stats elements
+        const learnedCountElement = document.getElementById("learned-count");
+        const totalCountElement = document.getElementById("total-count");
+        const streakElement = document.getElementById("streak");
+        const accuracyElement = document.getElementById("accuracy");
+        const progressFill = document.getElementById("progress-fill");
+        const progressPercent = document.getElementById("progress-percent");
+        const progressText = document.getElementById("progress-text");
+
+        // Initialize the DEMO game
+        function initDemoGame() {
+            // Set up event listeners for tabs
+            tabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    // Skip if tab is locked
+                    if (tab.classList.contains("demo-locked")) {
+                        showLockedMessage(tab.dataset.category);
+                        return;
+                    }
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                    
+                    // Update current category
+                    demoGameState.currentCategory = tab.dataset.category;
+                    demoGameState.currentVerbIndex = 0;
+                    
+                    // Update UI
+                    updateCategoryDisplay();
+                    loadVerb();
+                    updateVerbList();
+                });
+            });
+            
+            // Set up event listeners for buttons
+            hintBtn.addEventListener("click", showHint);
+            nextBtn.addEventListener("click", nextVerb);
+            resetBtn.addEventListener("click", resetDemoProgress);
+            buyBtn.addEventListener("click", showPurchaseOptions);
+            
+            // Initialize display
+            updateCategoryDisplay();
+            updateStats();
+            updateVerbList();
+            loadVerb();
+            
+            // Hide completion message initially
+            completionMessage.style.display = "none";
+            
+            // Show menu lock for demo
+            setTimeout(() => {
+                menuLock.style.display = "flex";
+            }, 1000);
+        }
+
+        // Show message for locked categories
+        function showLockedMessage(category) {
+            const categoryNames = {
+                perception: "Perception Verbs",
+                other: "Other Stative Verbs"
+            };
+            
+            alert(`🔒 ${categoryNames[category]} are locked in the demo version.\n\nUnlock all 59 verbs by purchasing the full version!`);
+            
+            // Show purchase button
+            const buyBtn = document.createElement("button");
+            buyBtn.textContent = "Buy Full Version";
+            buyBtn.className = "buy-btn";
+            buyBtn.style.marginTop = "10px";
+            buyBtn.onclick = showPurchaseOptions;
+            
+            // If there's already a button, don't add another
+            if (!document.querySelector(".locked-message-btn")) {
+                buyBtn.classList.add("locked-message-btn");
+                document.querySelector(".game-content").appendChild(buyBtn);
+            }
+        }
+
+        // Show purchase options
+        function showPurchaseOptions() {
+            const modalHTML = `
+                <div style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:1000;">
+                    <div style="background:linear-gradient(135deg, #1a2a6c, #2a3a7c); padding:30px; border-radius:15px; max-width:500px; width:90%; border:2px solid #feb47b;">
+                        <h2 style="color:#feb47b; margin-bottom:20px; text-align:center;">Unlock Full Version</h2>
+                        <div style="margin-bottom:25px;">
+                            <h3 style="color:#fff; margin-bottom:10px;">🌟 What you get:</h3>
+                            <ul style="padding-left:20px; margin-bottom:20px;">
+                                <li style="margin-bottom:8px;">✅ All 59 stative verbs (not just 15)</li>
+                                <li style="margin-bottom:8px;">✅ All 5 categories unlocked</li>
+                                <li style="margin-bottom:8px;">✅ Permanent progress saving</li>
+                                <li style="margin-bottom:8px;">✅ Detailed statistics & analytics</li>
+                                <li style="margin-bottom:8px;">✅ Achievement system</li>
+                                <li style="margin-bottom:8px;">✅ No ads or limitations</li>
+                            </ul>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-size:2rem; color:#feb47b; margin-bottom:20px;">150руб разово</div>
+                            <button id="purchase-btn" style="padding:15px 40px; background:linear-gradient(90deg, #ff7e5f, #feb47b); border:none; border-radius:8px; color:#1a2a6c; font-weight:bold; font-size:1.2rem; cursor:pointer; margin-bottom:15px; width:100%;">Purchase Now</button>
+                            <button id="close-modal" style="padding:10px 20px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); border-radius:6px; color:#fff; cursor:pointer; width:100%;">Maybe Later</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const modal = document.createElement("div");
+            modal.innerHTML = modalHTML;
+            document.body.appendChild(modal);
+            
+            // Add event listeners for modal buttons
+            modal.querySelector("#purchase-btn").addEventListener("click", () => {
+                alert("Напишите в наше сообщество вк ФразоЛаб и мы поможем вам преобрести новую игру");
+                document.body.removeChild(modal);
+            });
+            
+            modal.querySelector("#close-modal").addEventListener("click", () => {
+                document.body.removeChild(modal);
+            });
+        }
+
+        // Update category display
+        function updateCategoryDisplay() {
+            const categoryNames = {
+                emotion: "Emotion Verbs",
+                possession: "Possession Verbs",
+                mental: "Mental State Verbs",
+                perception: "Perception Verbs",
+                other: "Other Stative Verbs"
+            };
+            
+            currentCategoryElement.textContent = categoryNames[demoGameState.currentCategory];
+            
+            // Update verb list title
+            document.querySelector(".menu-section h3").textContent = 
+                `Verbs in ${categoryNames[demoGameState.currentCategory].toLowerCase()} (Demo)`;
+        }
+
+        // Load a verb for practice
+        function loadVerb() {
+            const verbs = demoStativeVerbs[demoGameState.currentCategory];
+            
+            // Check if all demo verbs in this category are learned
+            const unlearnedVerbs = verbs.filter(verb => !demoGameState.learnedVerbs.includes(verb));
+            
+            if (unlearnedVerbs.length === 0) {
+                // All demo verbs learned in this category
+                showCompletionMessage();
+                return;
+            }
+            
+            // Hide completion message if shown
+            completionMessage.style.display = "none";
+            
+            // If current verb is learned, find the next unlearned one
+            let currentVerb = verbs[demoGameState.currentVerbIndex];
+            if (demoGameState.learnedVerbs.includes(currentVerb)) {
+                // Find next unlearned verb
+                for (let i = 0; i < verbs.length; i++) {
+                    if (!demoGameState.learnedVerbs.includes(verbs[i])) {
+                        demoGameState.currentVerbIndex = i;
+                        currentVerb = verbs[i];
+                        break;
+                    }
+                }
+            }
+            
+            // Update question
+            questionElement.textContent = `Select the correct category for: "${currentVerb}"`;
+            
+            // Generate options (one correct, three random from other categories)
+            const categories = ["emotion", "possession", "mental"];
+            const correctCategory = demoGameState.currentCategory;
+            
+            // Remove correct category from options pool
+            const otherCategories = categories.filter(cat => cat !== correctCategory);
+            
+            // Shuffle other categories and pick 2, add one locked category as "preview"
+            const shuffledCategories = [...otherCategories].sort(() => Math.random() - 0.5);
+            const incorrectOptions = shuffledCategories.slice(0, 2);
+            
+            // Add one locked category as "preview"
+            const lockedCategories = ["perception", "other"];
+            const randomLockedCategory = lockedCategories[Math.floor(Math.random() * lockedCategories.length)];
+            incorrectOptions.push(randomLockedCategory);
+            
+            // Create options array with correct and incorrect options
+            const options = [correctCategory, ...incorrectOptions];
+            
+            // Shuffle options
+            shuffleArray(options);
+            
+            // Clear previous options
+            optionsContainer.innerHTML = "";
+            
+            // Create option elements
+            options.forEach(category => {
+                const optionElement = document.createElement("div");
+                optionElement.className = "option";
+                optionElement.textContent = categoryDescriptions[category];
+                optionElement.dataset.category = category;
+                
+                // Add lock icon for locked categories
+                if (category === "perception" || category === "other") {
+                    optionElement.innerHTML = `🔒 ${categoryDescriptions[category]} <small>(Full version)</small>`;
+                    optionElement.style.opacity = "0.7";
+                    optionElement.style.cursor = "not-allowed";
+                    optionElement.addEventListener("click", () => {
+                        showLockedMessage(category);
+                    });
+                } else {
+                    optionElement.addEventListener("click", () => {
+                        checkAnswer(category, correctCategory, currentVerb);
+                    });
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Clear hint
+            hintBox.style.display = "none";
+            hintBox.textContent = "";
+            
+            // Update verb list highlights
+            updateVerbList();
+        }
+
+        // Shuffle array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Check answer
+        function checkAnswer(selectedCategory, correctCategory, verb) {
+            const options = document.querySelectorAll(".option");
+            
+            // Disable all options
+            options.forEach(option => {
+                option.style.pointerEvents = "none";
+                
+                // Mark correct and incorrect
+                if (option.dataset.category === correctCategory) {
+                    option.classList.add("correct");
+                } else if (option.dataset.category === selectedCategory && selectedCategory !== correctCategory) {
+                    option.classList.add("incorrect");
+                }
+            });
+            
+            // Record practice history
+            const isCorrect = selectedCategory === correctCategory;
+            demoGameState.practiceHistory.push({
+                verb: verb,
+                category: correctCategory,
+                correct: isCorrect,
+                timestamp: new Date().toISOString()
+            });
+            
+            // If correct, mark as learned
+            if (isCorrect && !demoGameState.learnedVerbs.includes(verb)) {
+                demoGameState.learnedVerbs.push(verb);
+                
+                // Show celebration for demo completion
+                if (demoGameState.learnedVerbs.length === 5) {
+                    setTimeout(() => {
+                        alert("🎉 Great job! You've learned all 5 demo verbs in this category!\n\nTry another category or purchase the full version for all 59 verbs!");
+                    }, 500);
+                }
+            }
+            
+            // Save demo game state
+            saveDemoGameState();
+            
+            // Update stats
+            updateStats();
+            
+            // Update verb list
+            updateVerbList();
+        }
+
+        // Show hint
+        function showHint() {
+            const verbs = demoStativeVerbs[demoGameState.currentCategory];
+            const currentVerb = verbs[demoGameState.currentVerbIndex];
+            
+            // Create example sentences based on verb category
+            let example = "";
+            
+            switch(demoGameState.currentCategory) {
+                case "emotion":
+                    example = `Example: "I ${currentVerb} chocolate."`;
+                    break;
+                case "possession":
+                    example = `Example: "I ${currentVerb} a new car."`;
+                    break;
+                case "mental":
+                    example = `Example: "I ${currentVerb} that English is fun."`;
+                    break;
+            }
+            
+            hintBox.textContent = `${currentVerb} is a stative verb that typically isn't used in continuous tenses. ${example}`;
+            hintBox.style.display = "block";
+        }
+
+        // Move to next verb
+        function nextVerb() {
+            const verbs = demoStativeVerbs[demoGameState.currentCategory];
+            
+            // Reset option styles and enable them
+            const options = document.querySelectorAll(".option");
+            options.forEach(option => {
+                option.classList.remove("correct", "incorrect");
+                option.style.pointerEvents = "auto";
+            });
+            
+            // Hide hint
+            hintBox.style.display = "none";
+            
+            // Move to next verb (loop back to start if at end)
+            demoGameState.currentVerbIndex = (demoGameState.currentVerbIndex + 1) % verbs.length;
+            
+            // Load next verb
+            loadVerb();
+        }
+
+        // Show completion message
+        function showCompletionMessage() {
+            questionElement.style.display = "none";
+            optionsContainer.style.display = "none";
+            hintBox.style.display = "none";
+            hintBtn.style.display = "none";
+            nextBtn.style.display = "none";
+            completionMessage.style.display = "block";
+        }
+
+        // Update stats display
+        function updateStats() {
+            // Update learned count
+            learnedCountElement.textContent = demoGameState.learnedVerbs.length;
+            
+            // Update total count (only 5 per category in demo)
+            totalCountElement.textContent = "5";
+            
+            // Update progress bar
+            const verbsInCategory = demoStativeVerbs[demoGameState.currentCategory].length;
+            const learnedInCategory = demoStativeVerbs[demoGameState.currentCategory].filter(
+                verb => demoGameState.learnedVerbs.includes(verb)
+            ).length;
+            
+            const progressPercentage = Math.round((learnedInCategory / verbsInCategory) * 100);
+            progressFill.style.width = `${progressPercentage}%`;
+            progressPercent.textContent = `${progressPercentage}%`;
+            progressText.textContent = `${learnedInCategory}/${verbsInCategory} verbs`;
+            
+            // Update accuracy
+            const totalPractices = demoGameState.practiceHistory.length;
+            const correctPractices = demoGameState.practiceHistory.filter(p => p.correct).length;
+            const accuracyPercentage = totalPractices > 0 ? Math.round((correctPractices / totalPractices) * 100) : 0;
+            accuracyElement.textContent = `${accuracyPercentage}%`;
+            
+            // Update streak
+            streakElement.textContent = demoGameState.streak;
+        }
+
+        // Update verb list display
+        function updateVerbList() {
+            verbListElement.innerHTML = "";
+            const verbs = demoStativeVerbs[demoGameState.currentCategory];
+            
+            verbs.forEach(verb => {
+                const verbElement = document.createElement("div");
+                verbElement.className = "verb-item";
+                
+                if (demoGameState.learnedVerbs.includes(verb)) {
+                    verbElement.classList.add("learned");
+                } else {
+                    verbElement.classList.add("demo-only");
+                }
+                
+                verbElement.textContent = verb;
+                verbListElement.appendChild(verbElement);
+            });
+        }
+
+        // Reset DEMO progress
+        function resetDemoProgress() {
+            if (confirm("Are you sure you want to reset your demo progress?")) {
+                demoGameState.learnedVerbs = [];
+                demoGameState.practiceHistory = [];
+                demoGameState.streak = 0;
+                demoGameState.lastPracticeDate = "";
+                demoGameState.currentVerbIndex = 0;
+                
+                // Clear localStorage for demo
+                localStorage.removeItem("demoLearnedVerbs");
+                localStorage.removeItem("demoPracticeHistory");
+                
+                // Update UI
+                updateStats();
+                updateVerbList();
+                loadVerb();
+                
+                // Show confirmation
+                alert("Demo progress has been reset. Start learning again!");
+            }
+        }
+
+        // Save demo game state to localStorage
+        function saveDemoGameState() {
+            localStorage.setItem("demoLearnedVerbs", JSON.stringify(demoGameState.learnedVerbs));
+            localStorage.setItem("demoPracticeHistory", JSON.stringify(demoGameState.practiceHistory));
+        }
+
+        // Initialize the demo game when the page loads
+        document.addEventListener("DOMContentLoaded", initDemoGame);
+    </script>
+</body>
+</html>
